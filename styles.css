@@ -129,6 +129,7 @@ span {
 }
 
 .quiz-results {
+    margin-top: 20px;
     text-align: center;
     overflow-y: auto; /* 添加垂直滚动 */
     height: calc(60vh - 200px); /* 适当的高度调整 */
