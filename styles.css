@@ -1,0 +1,129 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.quiz-container {
+    width: 80vw;
+    height: 60vh;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.quiz-header, .quiz-options, .quiz-feedback, .progress, .quiz-footer {
+    margin-bottom: 20px;
+}
+
+.quiz-header {
+    border-bottom: 4px solid #ed6c2f;
+    padding-bottom: 10px;
+}
+
+#startBtn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ed6c2f;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    transition: transform 0.3s;
+}
+
+#startBtn:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+.quiz-options div {
+    margin-bottom: 10px;
+}
+
+.option {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    margin-left: 20px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.option:hover {
+    background-color: #ed6c2f;
+    color: white;
+    transform: scale(1.05);
+}
+
+.progress {
+    background-color: #eee;
+    height: 20px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0;
+    background-color: #ed6c2f;
+    border-radius: 10px;
+    transition: width 0.5s;
+}
+
+#progressText {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+#feedback {
+    color: red;
+    font-weight: bold;
+}
+
+#nextBtn {
+    background-color: #ed6c2f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+#nextBtn:hover {
+    transform: scale(1.05);
+}
+
+.quiz-results {
+    text-align: center;
+}
+
+#answerSummary div {
+    border-bottom: 1px solid #ed6c2f;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+span {
+    font-weight: bold;
+}
