@@ -127,3 +127,31 @@ body {
 span {
     font-weight: bold;
 }
+
+.quiz-results {
+    text-align: center;
+    overflow-y: auto; /* 添加垂直滚动 */
+    height: calc(60vh - 200px); /* 适当的高度调整 */
+    padding: 10px;
+    margin: 20px 0;
+    border: 2px solid #ed6c2f;
+    border-radius: 15px;
+}
+
+#restartBtn {
+    background-color: #ed6c2f;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.2s;
+    margin-top: 20px;
+    font-size: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#restartBtn:hover {
+    background-color: #ff7f50;
+    transform: scale(1.05);
+}
