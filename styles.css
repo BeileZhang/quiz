@@ -142,16 +142,24 @@ span {
     background-color: #ed6c2f;
     color: white;
     border: none;
-    padding: 15px 30px;
-    border-radius: 15px;
+    padding: 12px 25px;
+    border-radius: 10px;
     cursor: pointer;
     transition: transform 0.3s, background-color 0.2s;
-    margin-top: 20px;
-    font-size: 20px;
+    margin-top: 15px;
+    font-size: 18px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: fit-content;
+    display: none;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #restartBtn:hover {
     background-color: #ff7f50;
     transform: scale(1.05);
+}
+
+#restartBtn:active {
+    transform: scale(0.95);
 }
