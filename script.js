@@ -603,9 +603,11 @@ function selectRandomQuestions() {
 }
 
 function startQuiz() {
+
   selectRandomQuestions(); // Randomly select 10 questions for this round
   document.getElementById("startBtn").classList.add("hidden");
   document.querySelector(".quiz-content").classList.remove("hidden");
+  document.getElementById("restartBtn").style.display = "none";
   loadQuestion();
 }
 
@@ -659,12 +661,20 @@ function endQuiz() {
   }).join('');
   document.getElementById("answerSummary").innerHTML = summary;
   resultsContainer.classList.remove("hidden");
+  document.getElementById("restartBtn").style.display = "block";
 }
 
 function restartQuiz() {
     currentQuestionIndex = 0;
     score = 0;
     selectedAnswers = [];
+    questions = [];
+    selectRandomQuestions();
+    const options = document.querySelectorAll('.option');
+    options.forEach(option => {
+        option.classList.remove('correct', 'incorrect');
+    });
+    document.getElementById("feedback").textContent = "";
     document.getElementById("results").classList.add("hidden");
     startQuiz();
   }
