@@ -1,4 +1,4 @@
-const questions = [
+let questions = [
     {
         question: "Who are the authors of 'Artificial Intelligence: A Modern Approach'?",
         options: ["Alan Turing and John McCarthy", "Stuart Russell and Peter Norvig", "Marvin Minsky and Seymour Papert", "Ray Kurzweil and Elon Musk"],
@@ -254,110 +254,77 @@ const questions = [
         options: ["Deep Learning Models", "Natural Language Processors", "Robot Hardware", "Knowledge Bases"],
         correct: 2,
         explanation: "Robot Hardware is responsible for movement, coordination, and interaction with physical environments."
-    }，
-
+    }
 ];
 
 let currentQuestion = 0;
 let score = 0;
-let answers = [];
-let timerInterval;
-const timePerQuestion = 30;
+let timer;
+let timeLeft = 30;
 
-function startTimer() {
-  let time = timePerQuestion;
-  clearInterval(timerInterval);
-  document.getElementById("timer").innerText = `Time Left: ${time}`;
-  timerInterval = setInterval(() => {
-    time--;
-    document.getElementById("timer").innerText = `Time Left: ${time}`;
-    if (time <= 0) {
-      clearInterval(timerInterval);
-      submitAnswer(-1);
-    }
-  }, 1000);
+function getRandomQuestionIndex() {
+    let index;
+    do {
+        index = Math.floor(Math.random() * questions.length);
+    } while (usedQuestionsIndexes.includes(index) && usedQuestionsIndexes.length < questions.length);
+    usedQuestionsIndexes.push(index);
+    return index;
 }
 
 function displayQuestion() {
-  document.getElementById("question").innerText = questions[currentQuestion].question;
-  let options = document.querySelectorAll(".option");
-  options.forEach((option, index) => {
-    option.innerText = questions[currentQuestion].options[index];
-  });
-  startTimer();
+    currentQuestion = getRandomQuestionIndex();
+    document.getElementById("question").innerText = questions[currentQuestion].question;
+    let options = document.querySelectorAll(".option");
+    options.forEach((option, index) => {
+        option.innerText = questions[currentQuestion].options[index];
+    });
+    startTimer();
 }
 
-function submitAnswer(selectedIndex) {
-  answers.push({
-    question: questions[currentQuestion].question,
-    userAnswer: selectedIndex,
-    correctAnswer: questions[currentQuestion].correct
-  });
-
-  if (selectedIndex === questions[currentQuestion].correct) {
-    score++;
-    document.getElementById("feedback").innerText = "Correct!";
-  } else {
-    document.getElementById("feedback").innerText = "Wrong! " + questions[currentQuestion].explanation;
-  }
-
-  document.getElementById("nextBtn").disabled = false;
-  clearInterval(timerInterval);
+function checkAnswer(selectedOption) {
+    clearTimeout(timer);
+    let feedback = document.getElementById("feedback");
+    if (selectedOption === questions[currentQuestion].answer) {
+        score++;
+        feedback.innerText = "Correct!";
+    } else {
+        feedback.innerText = `Wrong! Correct answer is: ${questions[currentQuestion].options[questions[currentQuestion].answer]}. Explanation: ${questions[currentQuestion].explanation}`;
+    }
+    setTimeout(nextQuestion, 2000);
 }
 
 function nextQuestion() {
-  currentQuestion++;
-  if (currentQuestion < questions.length) {
-    displayQuestion();
-    document.getElementById("feedback").innerText = "";
-    document.getElementById("nextBtn").disabled = true;
-    updateProgressBar();
-  } else {
-    displayResults();
-  }
+    currentQuestion++;
+    if (currentQuestion < questions.length) {
+        displayQuestion();
+    } else {
+        showResults();
+    }
 }
 
-function updateProgressBar() {
-  const progressBar = document.getElementById("progressBar");
-  progressBar.style.width = ((currentQuestion + 1) / questions.length) * 100 + "%";
+function showResults() {
+    document.querySelector(".quiz-container").style.display = "none";
+    let resultsContainer = document.querySelector(".quiz-results");
+    resultsContainer.querySelector("#score").innerText = `${score} out of ${questions.length}`;
+    resultsContainer.style.display = "block";
 }
 
-function displayResults() {
-  document.querySelector(".quiz-container").classList.add("hidden");
-  document.getElementById("results").classList.remove("hidden");
-  document.getElementById("score").innerText = score;
-  displayAnswerSummary();
-  localStorage.setItem('quizAnswers', JSON.stringify(answers));
+function startTimer() {
+    timeLeft = 30;
+    timer = setInterval(function() {
+        document.getElementById("timer").innerText = `Time left: ${timeLeft}s`;
+        timeLeft--;
+        if (timeLeft < 0) {
+            clearTimeout(timer);
+            checkAnswer(-1);  // -1 means they didn't select any option
+        }
+    }, 1000);
 }
 
-function displayAnswerSummary() {
-  let summaryHtml = "";
-  answers.forEach((answer, index) => {
-    summaryHtml += `<div>
-      ${index + 1}. ${answer.question}
-      <br/>Your Answer: ${questions[index].options[answer.userAnswer] || "Not Answered"}
-      <br/>Correct Answer: ${questions[index].options[answer.correctAnswer]}
-      <hr/>
-    </div>`;
-  });
-  document.getElementById("answerSummary").innerHTML = summaryHtml;
-}
+document.querySelectorAll(".option").forEach((option, index) => {
+    option.addEventListener("click", function() {
+        checkAnswer(index);
+    });
+});
 
-function restartQuiz() {
-  score = 0;
-  answers = [];
-  currentQuestion = 0;
-  document.querySelector(".quiz-container").classList.remove("hidden");
-  document.getElementById("results").classList.add("hidden");
-  displayQuestion();
-}
-
-// Initial load
 displayQuestion();
-
-// If you want to load previous answers on page load
-const storedAnswers = JSON.parse(localStorage.getItem('quizAnswers'));
-if (storedAnswers) {
-  answers = storedAnswers;
-}
-
