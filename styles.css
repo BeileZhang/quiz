@@ -132,7 +132,7 @@ span {
     margin-top: 20px;
     text-align: center;
     overflow-y: auto; /* 添加垂直滚动 */
-    height: 60vh; /* 适当的高度调整 */
+    height: 50vh; /* 适当的高度调整 */
     padding: 10px;
     margin: 20px 0;
     border: 2px solid #ed6c2f;
