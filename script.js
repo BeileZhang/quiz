@@ -607,7 +607,7 @@ function startQuiz() {
   selectRandomQuestions(); // Randomly select 10 questions for this round
   document.getElementById("startBtn").classList.add("hidden");
   document.querySelector(".quiz-content").classList.remove("hidden");
-  document.getElementById("restartBtn").classList.add("hidden");
+  document.getElementById("restartBtn").style.display = "none";
   loadQuestion();
 }
 
@@ -661,7 +661,7 @@ function endQuiz() {
   }).join('');
   document.getElementById("answerSummary").innerHTML = summary;
   resultsContainer.classList.remove("hidden");
-  document.getElementById("restartBtn").classList.remove("hidden");
+  document.getElementById("restartBtn").style.display = "block";
 }
 
 function restartQuiz() {
