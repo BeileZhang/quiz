@@ -576,19 +576,6 @@ const allQuestions = [
       "explanation": "The 'Making Complex Decisions' section discusses 'Bandit Problems'."
     }
 
-
-
-
-
-
-
-
-
-
-
-
-                   
-  
 ];
 
 let currentQuestionIndex = 0;
@@ -598,13 +585,12 @@ let questions = [];
 
 function selectRandomQuestions() {
   let shuffledQuestions = [...allQuestions];
-  shuffledQuestions.sort(() => 0.5 - Math.random()); // Shuffle the array
-  questions = shuffledQuestions.slice(0, 10); // Take the first 10 questions
+  shuffledQuestions.sort(() => 0.5 - Math.random()); 
+  questions = shuffledQuestions.slice(0, 10); 
 }
 
 function startQuiz() {
-
-  selectRandomQuestions(); // Randomly select 10 questions for this round
+  selectRandomQuestions(); 
   document.getElementById("startBtn").classList.add("hidden");
   document.querySelector(".quiz-content").classList.remove("hidden");
   document.getElementById("restartBtn").style.display = "none";
