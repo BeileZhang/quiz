@@ -7,6 +7,27 @@ body {
     background-color: #f4f4f4;
 }
 
+.user-info {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000; /* 确保它在页面的其他元素之上 */
+}
+
+.user-button {
+    background-color: #f0f0f0; /* 浅灰色背景 */
+    border: none;
+    padding: 10px;
+    border-radius: 5px; /* 轻微的圆角边缘 */
+    cursor: pointer; /* 鼠标悬停时显示指针 */
+}
+
+.user-button:hover {
+    background-color: #e0e0e0; /* 鼠标悬停时的背景色 */
+}
+
+/* 可以添加更多的样式来美化按钮 */
+
 .quiz-container {
     width: 80vw;
     height: 60vh;
