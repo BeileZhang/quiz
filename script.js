@@ -575,7 +575,9 @@ const allQuestions = [
       "answer": 0,
       "explanation": "The 'Making Complex Decisions' section discusses 'Bandit Problems'."
     }
+
 ];
+
 let currentQuestionIndex = 0;
 let score = 0;
 let selectedAnswers = [];
@@ -584,7 +586,8 @@ let hp = 100; // Changed from coins to hp and initialized with 100
 
 function selectRandomQuestions() {
   let shuffledQuestions = [...allQuestions];
-	@@ -590,10 +591,11 @@ function selectRandomQuestions() {
+  shuffledQuestions.sort(() => 0.5 - Math.random()); 
+  questions = shuffledQuestions.slice(0, 10); 
 }
 
 function startQuiz() {
@@ -596,7 +599,17 @@ function startQuiz() {
   loadQuestion();
 }
 
-	@@ -611,6 +613,7 @@ function loadQuestion() {
+function loadQuestion() {
+  if (currentQuestionIndex < questions.length) {
+    const questionObj = questions[currentQuestionIndex];
+    document.getElementById("question").textContent = questionObj.question;
+    const optionsButtons = document.querySelectorAll(".option");
+    optionsButtons.forEach((button, index) => {
+      button.textContent = questionObj.options[index];
+    });
+    document.getElementById("progressText").textContent = `${currentQuestionIndex + 1}/${questions.length}`;
+    document.getElementById("progressBar").style.width = `${((currentQuestionIndex + 1) / questions.length) * 100}%`;
+  } else {
     endQuiz();
   }
 }
@@ -604,7 +617,9 @@ function startQuiz() {
 function submitAnswer(optionIndex) {
   const questionObj = questions[currentQuestionIndex];
   const correct = optionIndex === questionObj.answer;
-	@@ -620,8 +623,14 @@ function submitAnswer(optionIndex) {
+  const feedback = document.getElementById("feedback");
+  if (correct) {
+    score++;
     feedback.textContent = "Correct!";
     feedback.style.color = "green";
   } else {
@@ -619,7 +634,16 @@ function submitAnswer(optionIndex) {
   }
   selectedAnswers.push({ question: questionObj.question, selectedOption: questionObj.options[optionIndex], correct });
   document.getElementById("nextBtn").disabled = false;
-	@@ -638,6 +647,11 @@ function nextQuestion() {
+}
+
+function nextQuestion() {
+  currentQuestionIndex++;
+  if (currentQuestionIndex < questions.length) {
+    document.getElementById("feedback").textContent = "";
+    document.getElementById("nextBtn").disabled = true;
+    loadQuestion();
+  } else {
+    endQuiz();
   }
 }
 
@@ -631,7 +655,13 @@ function endQuizEarly() {
 function endQuiz() {
   document.querySelector(".quiz-content").classList.add("hidden");
   const resultsContainer = document.getElementById("results");
-	@@ -651,16 +665,18 @@ function endQuiz() {
+  document.getElementById("score").textContent = score;
+  const summary = selectedAnswers.map((item, index) => {
+    return `<div><strong>Question ${index + 1}:</strong> ${item.question} <br> <strong>Your Answer:</strong> ${item.selectedOption} <br> <strong>Correct:</strong> ${item.correct ? 'Yes' : 'No'}</div>`;
+  }).join('');
+  document.getElementById("answerSummary").innerHTML = summary;
+  resultsContainer.classList.remove("hidden");
+  document.getElementById("restartBtn").style.display = "block";
 }
 
 function restartQuiz() {
