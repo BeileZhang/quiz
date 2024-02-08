@@ -575,9 +575,7 @@ const allQuestions = [
       "answer": 0,
       "explanation": "The 'Making Complex Decisions' section discusses 'Bandit Problems'."
     }
-
 ];
-
 let currentQuestionIndex = 0;
 let score = 0;
 let selectedAnswers = [];
@@ -591,6 +589,7 @@ function selectRandomQuestions() {
 }
 
 function startQuiz() {
+  selectRandomQuestions(); 
   selectRandomQuestions();
   document.getElementById("startBtn").classList.add("hidden");
   document.querySelector(".quiz-content").classList.remove("hidden");
@@ -635,7 +634,6 @@ function submitAnswer(optionIndex) {
   selectedAnswers.push({ question: questionObj.question, selectedOption: questionObj.options[optionIndex], correct });
   document.getElementById("nextBtn").disabled = false;
 }
-
 function nextQuestion() {
   currentQuestionIndex++;
   if (currentQuestionIndex < questions.length) {
@@ -665,6 +663,19 @@ function endQuiz() {
 }
 
 function restartQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    selectedAnswers = [];
+    questions = [];
+    selectRandomQuestions();
+    const options = document.querySelectorAll('.option');
+    options.forEach(option => {
+        option.classList.remove('correct', 'incorrect');
+    });
+    document.getElementById("feedback").textContent = "";
+    document.getElementById("results").classList.add("hidden");
+    startQuiz();
+  }
   currentQuestionIndex = 0;
   score = 0;
   selectedAnswers = [];
