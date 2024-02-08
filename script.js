@@ -1,13 +1,4 @@
 
-  MemberStack.onReady.then(function(member) {
-    if (member.loggedIn) {
-      // 用户已登录，可以访问member的属性，比如email或者自定义字段
-      var username = member["first-name"]; // 替换your-custom-field-name为你在MemberStack中设置的字段名
-
-      // 现在使用用户名更新页面元素
-      document.getElementById("username-display").textContent = userName;
-    }
-  });
 
 
 const allQuestions = [
