@@ -1,6 +1,3 @@
-
-
-
 const allQuestions = [
     {
       "question": "Which is NOT a foundation of Artificial Intelligence?",
