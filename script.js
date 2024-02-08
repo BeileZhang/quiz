@@ -584,12 +584,10 @@ let hp = 100; // Changed from coins to hp and initialized with 100
 
 function selectRandomQuestions() {
   let shuffledQuestions = [...allQuestions];
-  shuffledQuestions.sort(() => 0.5 - Math.random()); 
-  questions = shuffledQuestions.slice(0, 10); 
+	@@ -590,10 +591,11 @@ function selectRandomQuestions() {
 }
 
 function startQuiz() {
-  selectRandomQuestions(); 
   selectRandomQuestions();
   document.getElementById("startBtn").classList.add("hidden");
   document.querySelector(".quiz-content").classList.remove("hidden");
@@ -598,17 +596,7 @@ function startQuiz() {
   loadQuestion();
 }
 
-function loadQuestion() {
-  if (currentQuestionIndex < questions.length) {
-    const questionObj = questions[currentQuestionIndex];
-    document.getElementById("question").textContent = questionObj.question;
-    const optionsButtons = document.querySelectorAll(".option");
-    optionsButtons.forEach((button, index) => {
-      button.textContent = questionObj.options[index];
-    });
-    document.getElementById("progressText").textContent = `${currentQuestionIndex + 1}/${questions.length}`;
-    document.getElementById("progressBar").style.width = `${((currentQuestionIndex + 1) / questions.length) * 100}%`;
-  } else {
+	@@ -611,6 +613,7 @@ function loadQuestion() {
     endQuiz();
   }
 }
@@ -616,9 +604,7 @@ function loadQuestion() {
 function submitAnswer(optionIndex) {
   const questionObj = questions[currentQuestionIndex];
   const correct = optionIndex === questionObj.answer;
-  const feedback = document.getElementById("feedback");
-  if (correct) {
-    score++;
+	@@ -620,8 +623,14 @@ function submitAnswer(optionIndex) {
     feedback.textContent = "Correct!";
     feedback.style.color = "green";
   } else {
@@ -633,15 +619,7 @@ function submitAnswer(optionIndex) {
   }
   selectedAnswers.push({ question: questionObj.question, selectedOption: questionObj.options[optionIndex], correct });
   document.getElementById("nextBtn").disabled = false;
-}
-function nextQuestion() {
-  currentQuestionIndex++;
-  if (currentQuestionIndex < questions.length) {
-    document.getElementById("feedback").textContent = "";
-    document.getElementById("nextBtn").disabled = true;
-    loadQuestion();
-  } else {
-    endQuiz();
+	@@ -638,6 +647,11 @@ function nextQuestion() {
   }
 }
 
@@ -653,29 +631,10 @@ function endQuizEarly() {
 function endQuiz() {
   document.querySelector(".quiz-content").classList.add("hidden");
   const resultsContainer = document.getElementById("results");
-  document.getElementById("score").textContent = score;
-  const summary = selectedAnswers.map((item, index) => {
-    return `<div><strong>Question ${index + 1}:</strong> ${item.question} <br> <strong>Your Answer:</strong> ${item.selectedOption} <br> <strong>Correct:</strong> ${item.correct ? 'Yes' : 'No'}</div>`;
-  }).join('');
-  document.getElementById("answerSummary").innerHTML = summary;
-  resultsContainer.classList.remove("hidden");
-  document.getElementById("restartBtn").style.display = "block";
+	@@ -651,16 +665,18 @@ function endQuiz() {
 }
 
 function restartQuiz() {
-    currentQuestionIndex = 0;
-    score = 0;
-    selectedAnswers = [];
-    questions = [];
-    selectRandomQuestions();
-    const options = document.querySelectorAll('.option');
-    options.forEach(option => {
-        option.classList.remove('correct', 'incorrect');
-    });
-    document.getElementById("feedback").textContent = "";
-    document.getElementById("results").classList.add("hidden");
-    startQuiz();
-  }
   currentQuestionIndex = 0;
   score = 0;
   selectedAnswers = [];
