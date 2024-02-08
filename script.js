@@ -582,6 +582,7 @@ let currentQuestionIndex = 0;
 let score = 0;
 let selectedAnswers = [];
 let questions = [];
+let hp = 100; // Changed from coins to hp and initialized with 100
 
 function selectRandomQuestions() {
   let shuffledQuestions = [...allQuestions];
@@ -590,10 +591,11 @@ function selectRandomQuestions() {
 }
 
 function startQuiz() {
-  selectRandomQuestions(); 
+  selectRandomQuestions();
   document.getElementById("startBtn").classList.add("hidden");
   document.querySelector(".quiz-content").classList.remove("hidden");
   document.getElementById("restartBtn").style.display = "none";
+  document.getElementById("hp").textContent = `HP: ${hp}`; // Update to show HP
   loadQuestion();
 }
 
@@ -611,6 +613,7 @@ function loadQuestion() {
     endQuiz();
   }
 }
+
 function submitAnswer(optionIndex) {
   const questionObj = questions[currentQuestionIndex];
   const correct = optionIndex === questionObj.answer;
@@ -620,8 +623,14 @@ function submitAnswer(optionIndex) {
     feedback.textContent = "Correct!";
     feedback.style.color = "green";
   } else {
+    hp -= 10; // Deduct 10 HP for a wrong answer
+    document.getElementById("hp").textContent = `HP: ${hp}`; // Update the display of HP
     feedback.textContent = `Incorrect! Correct answer: ${questionObj.options[questionObj.answer]}. Explanation: ${questionObj.explanation}`;
     feedback.style.color = "red";
+    if (hp <= 0) {
+      endQuizEarly(); // End the quiz if HP drops to 0
+      return; // Exit the function early to avoid executing the remaining code
+    }
   }
   selectedAnswers.push({ question: questionObj.question, selectedOption: questionObj.options[optionIndex], correct });
   document.getElementById("nextBtn").disabled = false;
@@ -638,6 +647,11 @@ function nextQuestion() {
   }
 }
 
+function endQuizEarly() {
+  alert("HP has run out! Quiz over.");
+  endQuiz(); // Handles early quiz termination when HP is 0
+}
+
 function endQuiz() {
   document.querySelector(".quiz-content").classList.add("hidden");
   const resultsContainer = document.getElementById("results");
@@ -651,16 +665,18 @@ function endQuiz() {
 }
 
 function restartQuiz() {
-    currentQuestionIndex = 0;
-    score = 0;
-    selectedAnswers = [];
-    questions = [];
-    selectRandomQuestions();
-    const options = document.querySelectorAll('.option');
-    options.forEach(option => {
-        option.classList.remove('correct', 'incorrect');
-    });
-    document.getElementById("feedback").textContent = "";
-    document.getElementById("results").classList.add("hidden");
-    startQuiz();
-  }
+  currentQuestionIndex = 0;
+  score = 0;
+  selectedAnswers = [];
+  questions = [];
+  hp = 100; // Reset HP to 100
+  document.getElementById("hp").textContent = `HP: ${hp}`; // Update the display of HP
+  selectRandomQuestions();
+  const options = document.querySelectorAll('.option');
+  options.forEach(option => {
+      option.classList.remove('correct', 'incorrect');
+  });
+  document.getElementById("feedback").textContent = "";
+  document.getElementById("results").classList.add("hidden");
+  startQuiz();
+}
